@@ -1,0 +1,42 @@
+ create database grizzly_store;
+
+   use grizzly_store;
+
+   create table login(username varchar(30),password varchar(30),user_type varchar(15),attempt int(1));
+
+   create table product_brand(pr_br_id int(10) primary key auto_increment,br_name varchar(50));
+
+   create table product_category(pr_ct_id int(10) primary key auto_increment,ct_name varchar(50));
+
+   create table product(pr_id int(10) primary key auto_increment,pr_name varchar(20),pr_description text,pr_price double,pr_rating double,pr_availability int(20),pr_br_fk int(10),pr_ct_fk int(10),foreign key(pr_br_fk) references product_brand(pr_br_id),foreign key(pr_ct_fk) references product_category(pr_ct_id));
+
+   create table product_gallery(ga_id int(11) auto_increment primary key,pr_ga_fk int(11) references product(pr_id),ga_name varchar(255));
+
+   insert into login values("admin","1234","admin",0);
+   insert into login values("vendor","1234","vendor",0);
+
+   insert into product_category values(101,"personal care"),(102,"laptop"),(103,"art and supplies"),(104,"mobiles");
+
+   insert into product_brand values(1001,"Apple"),(1002,"philips"),(1003,"Mi"),(1004,"Camel");
+
+   insert into product values(1,"trimmer","grooming product from philips",1350.0,4.0,20,1002,101);
+   insert into product values(2,"Macbook","professional at its best",132000.0,4.5,100,1001,102);
+   insert into product values(3,"colour pencils","colour as you wish",100.0,4.0,20,1004,103);
+   insert into product values(4,"Mi Note 7","Breaking the boundaries for freedom",13500.0,4.2,20,1003,104);
+   insert into product values(5,"Mi note 5 pro","Budget King",15000.0,4.3,20,1003,103);
+
+
+   insert into product_gallery(pr_ga_fk,ga_name) values(1,"trimmer.jpg"),(2,"macbook.jpg"),(3,"colorpencils.jpg"),(4,"note7.jpg"),(5,"note5.jpg");
+
+   select pr.*,ct.*,br.*,gl.* from product pr join product_category ct join product_brand br join product_gallery gl on pr_ct_fk=ct_id and pr_br_fk=br_id and pr_id_fk=pr_id order by pr_price; 
+
+
+select pr.pr_name,pr.pr_rating,br.br_name,ct.ct_name from product pr join product_brand br join product_category ct on pr_br_fk=br_id and pr_ct_fk=ct_id;
+
+select * from product;
+
+select * from product_brand;
+
+select * from product_category;
+
+select * from product_gallery;
